@@ -1,0 +1,34 @@
+{
+  "name": "minia2a-payment-audit",
+  "version": "0.1.0",
+  "description": "x402 payment trust check for AI agents — pay-per-call. Before you pay an x402 seller, black-box probe whether the endpoint actually verifies payment (rejects forged txHash / signature / replay) or delivers results to anyone. $5 per check in USDC on Base via x402. No API keys, no subscription. Built on the minia2a marketplace.",
+  "type": "module",
+  "main": "src/index.js",
+  "bin": {
+    "minia2a-payment-audit": "src/cli.js"
+  },
+  "files": [
+    "src/",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "test": "node --check src/index.js && node --check src/cli.js"
+  },
+  "keywords": [
+    "x402",
+    "payment",
+    "audit",
+    "security",
+    "trust",
+    "http-402",
+    "agent",
+    "mcp"
+  ],
+  "license": "MIT",
+  "dependencies": {
+    "@x402/fetch": "^2.24.0",
+    "@x402/evm": "^2.24.0",
+    "viem": "^2.0.0"
+  }
+}

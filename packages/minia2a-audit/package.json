@@ -1,0 +1,39 @@
+{
+  "name": "minia2a-audit",
+  "version": "0.1.1",
+  "description": "Smart-contract audit tools for AI agents — x402 pay-per-call. $2 static scan (10 vulnerability patterns) or $20 AI deep audit (3x sampled, deduplicated, multi-chain). No API keys, no subscription — pay in USDC on Base via x402. Built on the minia2a marketplace.",
+  "type": "module",
+  "main": "src/index.js",
+  "bin": {
+    "minia2a-audit": "src/cli.js"
+  },
+  "files": [
+    "src/",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "test": "node src/index.test.js"
+  },
+  "keywords": [
+    "smart-contract",
+    "audit",
+    "security",
+    "solidity",
+    "rust",
+    "move",
+    "x402",
+    "minia2a",
+    "usdc",
+    "base",
+    "web3",
+    "ai-agent",
+    "solana"
+  ],
+  "dependencies": {
+    "@x402/fetch": "^2.24.0",
+    "@x402/evm": "^2.24.0",
+    "viem": "^2.0.0"
+  },
+  "license": "MIT"
+}

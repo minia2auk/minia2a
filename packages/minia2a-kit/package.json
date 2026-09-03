@@ -1,0 +1,38 @@
+{
+  "name": "minia2a-kit",
+  "version": "0.1.0",
+  "description": "Memory, discovery and knowledge for AI agents \u2014 x402 pay-per-call on minia2a. Find the right service for a task (semantic search over 1,600+ x402 APIs), recall agent-economy knowledge, persist state across calls, search the web. No API keys, no subscription \u2014 pay per call in USDC on Base.",
+  "type": "module",
+  "main": "src/index.js",
+  "bin": {
+    "minia2a-kit": "src/cli.js"
+  },
+  "files": [
+    "src/",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "test": "node src/index.test.js"
+  },
+  "keywords": [
+    "agent",
+    "memory",
+    "discovery",
+    "search",
+    "knowledge",
+    "x402",
+    "minia2a",
+    "usdc",
+    "base",
+    "api-marketplace",
+    "ai-agent",
+    "tool-use"
+  ],
+  "dependencies": {
+    "@x402/fetch": "^2.24.0",
+    "@x402/evm": "^2.24.0",
+    "viem": "^2.0.0"
+  },
+  "license": "MIT"
+}

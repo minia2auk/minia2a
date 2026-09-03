@@ -22,7 +22,7 @@ This is the **open-source surface** of minia2a: client SDKs, protocol standards,
 
 ## Client SDKs (npm)
 
-Every SDK is a thin client: it calls a minia2a service and **pays per call** in USDC on Base via x402. Your private key never leaves your process.
+Every SDK is a thin client: it calls a minia2a service and **pays per call** in USDC on Base via x402. Your private key never leaves your process. Sources for the audit / kit / payment-audit clients live in [`packages/`](packages/) in this repo; each is published independently to npm from its package directory.
 
 | Package | What it does | Price per call |
 |---|---|---|
