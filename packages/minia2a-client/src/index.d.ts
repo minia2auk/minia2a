@@ -10,7 +10,7 @@ export interface CallOptions {
   body?: string;
   /** Request timeout in ms (default: 60000) */
   timeout?: number;
-  /** Use a free trial call instead of paying (requires a prior register()) */
+  /** Spend one of this wallet's 5 free trial calls instead of paying (no registration needed) */
   trial?: boolean;
 }
 
@@ -55,7 +55,7 @@ export interface Minia2aClient {
    */
   call(service: string, params?: Record<string, any>, opts?: CallOptions): Promise<CallResult>;
   /**
-   * Optional registration — unlocks 5 free trial calls for this wallet.
+   * Optional registration — publishing/identity only; trials are per-wallet and need no registration.
    * Signs "minia2a register: <wallet>" (EIP-191) locally.
    */
   register(name?: string): Promise<RegisterResult>;

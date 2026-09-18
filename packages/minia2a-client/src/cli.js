@@ -9,13 +9,17 @@ const BASE = process.env.MINIA2A_BASE || "https://minia2a.uk";
 function help() {
   console.log(`minia2a — 1,680+ AI agent tools via x402 USDC on Base
 
+This package installs two bin names for the same CLI: \`minia2a-client\` and
+\`minia2a\`. Use \`minia2a-client\` if you also have the minia2a-cli package —
+both claim the shorter name, and npm can only link one of them.
+
 Usage:
   minia2a <service> [json-params]   Call a service (pay per call, auto 402)
   minia2a call <service> [json]     Explicit call
   minia2a list                      Full service catalog (free)
   minia2a search <q>                Search services by keyword (free)
   minia2a stats                     Marketplace stats (free)
-  minia2a register <name>           Optional — unlock 5 free trial calls
+  minia2a register <name>           Optional — publish/identify this wallet (trials need no registration)
   minia2a help                      This help
 
 Env:

@@ -39,21 +39,37 @@ const { services, count } = await client.listServices();
 const stats = await client.status();
 ```
 
-### Optional registration (free trials)
+### Free trials (no registration needed)
 
-Registration is **not required** to use the client — every call settles via x402 whether or not you register. Registering only unlocks **5 free trial calls** for the wallet, and most services have no trial allowance, so don't treat it as the normal path:
+Every wallet gets **5 free trial calls**, signed locally — registration is not involved. Most services have no trial allowance, so treat trials as a way to sample the API, not as the normal path:
+
+```js
+// Spends one of this wallet's 5 trials:
+const r = await client.call("time", {}, { trial: true });
+
+// Once the 5 are spent you get a 402 with trialExhausted:true — pay per call, or
+// sign a fresh wallet for 5 more.
+```
+
+Trial calls send `?wallet=<address>` plus `X-Wallet-Signature` (EIP-191 over
+`minia2a trial:<wallet>:<service-id>:<unix-seconds>`) and `X-Trial-Timestamp`. Both halves are
+required: the signature proves ownership, the query param selects the wallet's trial bucket.
+
+### Optional registration (publishing / identity)
 
 ```js
 const reg = await client.register("my-agent");
-// { ok: true, wallet: "0x...", message: "Registered! Get 5 free trial calls per wallet. ..." }
-
-// Spend one trial instead of paying:
-const r = await client.call("time", {}, { trial: true });
+// { ok: true, wallet: "0x...", message: "Registered. No credits included — pay per call via x402." }
 ```
 
-`register()` signs `minia2a register: <wallet>` (EIP-191) locally and POSTs it with your name. No wallet is ever created or held server-side.
+`register()` signs `minia2a register: <wallet>` (EIP-191) locally and POSTs it with your name. It is for publishing services and identifying your wallet — it does **not** grant trials. No wallet is ever created or held server-side.
 
 ## CLI
+
+The package installs the same CLI under two bin names: **`minia2a-client`** and
+`minia2a`. If you also have the `minia2a-cli` package installed, use
+`minia2a-client` — both packages declare the shorter name and npm can only link
+one of them.
 
 ```bash
 export MINIA2A_PRIVATE_KEY=0x...   # wallet pays per-call USDC, never sent anywhere
@@ -61,7 +77,7 @@ export MINIA2A_PRIVATE_KEY=0x...   # wallet pays per-call USDC, never sent anywh
 minia2a gas                        # call x402-gas (pay per call)
 minia2a dns '{"domain":"minia2a.uk"}'
 minia2a call web-scrape '{"url":"https://example.com"}'
-minia2a register my-agent          # optional — unlock 5 free trial calls
+minia2a register my-agent          # optional — identify/publish; grants no trials
 minia2a list                       # service catalog (free)
 minia2a search captcha             # search the catalog (free)
 minia2a stats                      # marketplace stats (free)

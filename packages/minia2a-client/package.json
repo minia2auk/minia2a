@@ -1,11 +1,12 @@
 {
   "name": "minia2a-client",
-  "version": "2.0.0",
-  "description": "Call 1,680+ AI agent tools via x402 USDC micropayments on Base. Bring your own wallet — pay per call, no API keys, no credits. Gas, captcha, web scraping, token security, DeFi data, and more.",
+  "version": "2.0.7",
+  "description": "Call 1,680+ AI agent tools via x402 USDC micropayments on Base. Bring your own wallet \u2014 pay per call, no API keys, no credits. Gas, captcha, web scraping, token security, DeFi data, and more.",
   "type": "module",
   "main": "src/index.js",
   "bin": {
-    "minia2a": "./src/cli.js"
+    "minia2a": "./src/cli.js",
+    "minia2a-client": "./src/cli.js"
   },
   "files": [
     "src/",
@@ -42,7 +43,8 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/minia2a-org/minia2a"
+    "url": "git+https://github.com/minia2auk/minia2a.git",
+    "directory": "packages/minia2a-client"
   },
   "homepage": "https://minia2a.uk",
   "engines": {
