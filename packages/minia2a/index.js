@@ -48,13 +48,24 @@ function agentId() {
   _agentIdResolved = true;
   const fromEnv = process.env.MINIA2A_AGENT_ID;
   if (fromEnv) return (_agentIdCache = fromEnv);
-  const file = path.join(os.homedir(), '.minia2a-agent-id');
+  // Two locations exist across our published clients: this one and `minia2a-mcp`,
+  // `minia2a-client` and `@minia2a/sdk` read ~/.minia2a-agent-id (the path
+  // adoption.go names), while `minia2a-cli` historically wrote
+  // ~/.minia2a/agent-id. Reading only one mints a second id on a machine that
+  // already has one, and that machine is counted as two agents. Read both.
+  const candidates = [
+    path.join(os.homedir(), '.minia2a-agent-id'),
+    path.join(os.homedir(), '.minia2a', 'agent-id'),
+  ];
   // Read and create are separate try blocks on purpose: "file not there yet" is the
   // normal first run and must fall through to creation, not be swallowed as a failure.
-  try {
-    const existing = fs.readFileSync(file, 'utf8').trim();
-    if (existing) return (_agentIdCache = existing);
-  } catch (e) { /* not created yet */ }
+  for (const file of candidates) {
+    try {
+      const existing = fs.readFileSync(file, 'utf8').trim();
+      if (existing) return (_agentIdCache = existing);
+    } catch (e) { /* not created yet — fall through to the next candidate */ }
+  }
+  const file = candidates[0];
   try {
     const id = 'agent:' + crypto.randomUUID();
     fs.writeFileSync(file, id, { mode: 0o600 });
