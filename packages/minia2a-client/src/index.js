@@ -29,17 +29,29 @@ function normalizeKey(key) {
 // never the id itself, so this is a privacy-safe "distinct agents" signal
 // rather than a tracking cookie. One id per machine, not per process — it
 // must survive restarts or every run would count as a new agent.
+//
+// Two locations exist across our published clients: this one and `minia2a-mcp`
+// and `@minia2a/sdk` read ~/.minia2a-agent-id (the path the gateway's
+// adoption.go names), while `minia2a-cli` historically wrote
+// ~/.minia2a/agent-id. Reading only one mints a second id on a machine that
+// already has one, and that machine is counted as two agents. Read both.
 let _agentId;
 function agentId() {
   if (_agentId) return _agentId;
   if (process.env.MINIA2A_AGENT_ID) return (_agentId = process.env.MINIA2A_AGENT_ID);
-  const file = join(homedir(), ".minia2a-agent-id");
-  try {
-    _agentId = readFileSync(file, "utf8").trim();
-    if (_agentId) return _agentId;
-  } catch {
-    // no file yet — fall through and create one
+  const candidates = [
+    join(homedir(), ".minia2a-agent-id"),
+    join(homedir(), ".minia2a", "agent-id"),
+  ];
+  for (const file of candidates) {
+    try {
+      _agentId = readFileSync(file, "utf8").trim();
+      if (_agentId) return _agentId;
+    } catch {
+      // not created yet — fall through to the next candidate
+    }
   }
+  const file = candidates[0];
   _agentId = "agent:" + randomUUID();
   try {
     writeFileSync(file, _agentId);
