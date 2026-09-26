@@ -36,7 +36,7 @@ function normalizeKey(key) {
 // ~/.minia2a/agent-id. Reading only one mints a second id on a machine that
 // already has one, and that machine is counted as two agents. Read both.
 let _agentId;
-function agentId() {
+export function agentId() {
   if (_agentId) return _agentId;
   if (process.env.MINIA2A_AGENT_ID) return (_agentId = process.env.MINIA2A_AGENT_ID);
   const candidates = [
