@@ -33,12 +33,31 @@
     "ethereum",
     "payment-required",
     "http-402",
-    "claude-code"
+    "claude-code",
+    "nano",
+    "xno",
+    "feeless",
+    "self-custody"
   ],
   "dependencies": {
     "@x402/fetch": "^2.24.0",
     "@x402/evm": "^2.24.0",
     "viem": "^2.0.0"
+  },
+  "optionalDependencies": {
+    "@x402nano/exact": "^0.3.0",
+    "@x402nano/helper": "^0.2.0"
+  },
+  "exports": {
+    ".": {
+      "import": "./src/index.js",
+      "types": "./src/index.d.ts"
+    },
+    "./nano": {
+      "import": "./src/nano.js",
+      "types": "./src/nano.d.ts"
+    },
+    "./package.json": "./package.json"
   },
   "license": "MIT",
   "repository": {

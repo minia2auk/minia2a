@@ -64,6 +64,28 @@ const reg = await client.register("my-agent");
 
 `register()` signs `minia2a register: <wallet>` (EIP-191) locally and POSTs it with your name. It is for publishing services and identifying your wallet — it does **not** grant trials. No wallet is ever created or held server-side.
 
+## Feeless Nano (XNO) rail
+
+Beside USDC on Base, the client can settle a `402` in **feeless Nano (XNO)** on `nano:mainnet` — zero network fee, ~1 s finality, no gas token — when the server offers a `nano:mainnet` accept.
+
+```js
+import { createNanoClient } from "minia2a-client/nano";
+
+const client = await createNanoClient({ privateKey: process.env.MINIA2A_NANO_PRIVATE_KEY });
+// Settles per-call fees in Nano. Optionally also carry the USDC rail:
+// const client = await createNanoClient({ privateKey: nanoKey, evmPrivateKey: evmKey });
+
+const res = await client.call("gas"); // { ok: true, ... }
+```
+
+Which rail a call uses is decided by the `402` challenge the gateway returns — only an `accepts[]` entry that is present is payable. A Nano-only client (no `evmPrivateKey`) pays only endpoints that advertise a `nano:mainnet` accept; to also pay endpoints that advertise only `eip155:8453`, pass `evmPrivateKey` so the USDC-on-Base rail is available from the same client.
+
+**Scope.** This covers settlement for paid calls (a `nano:mainnet` accept + a Nano scheme that can sign it). It does not cover the signed-trial flow, whose identifier is EVM-shaped (`minia2a trial:{wallet}:...`, EIP-55) — an agent holding only a Nano account cannot sign that, so the "no EVM wallet needed" claim is intentionally not made here. The trial path is a separate decision.
+
+**Identity.** The nano path sends the same persisted `X-Agent-ID` as the USDC rail (reused from the base client), so a machine running both rails still counts as one agent.
+
+**Settlement.** The Nano send block is the payment proof. It is built via the configured Nano RPC, and the resource server verifies/settles it through a Nano x402 facilitator (e.g. `facilitator.pursekeeper.dev` `exact` on `nano:mainnet`).
+
 ## CLI
 
 The package installs the same CLI under two bin names: **`minia2a-client`** and
