@@ -71,12 +71,17 @@ Beside USDC on Base, the client can settle a `402` in **feeless Nano (XNO)** on 
 ```js
 import { createNanoClient } from "minia2a-client/nano";
 
-const client = await createNanoClient({ privateKey: process.env.MINIA2A_NANO_PRIVATE_KEY });
+const client = await createNanoClient({
+  privateKey: process.env.MINIA2A_NANO_PRIVATE_KEY,
+  rpcUrl: process.env.MINIA2A_NANO_RPC_URL, // required — see below
+});
 // Settles per-call fees in Nano. Optionally also carry the USDC rail:
-// const client = await createNanoClient({ privateKey: nanoKey, evmPrivateKey: evmKey });
+// const client = await createNanoClient({ privateKey: nanoKey, rpcUrl, evmPrivateKey: evmKey });
 
 const res = await client.call("gas"); // { ok: true, ... }
 ```
+
+`rpcUrl` (or `MINIA2A_NANO_RPC_URL`) is **required** and has no built-in default: which Nano node you trust is your choice, not the library's. `createNanoClient()` rejects a missing value immediately and by name — `@x402nano/helper` otherwise rejects it only when it builds the send block, i.e. after the `402`, from inside the payment path.
 
 Which rail a call uses is decided by the `402` challenge the gateway returns — only an `accepts[]` entry that is present is payable. A Nano-only client (no `evmPrivateKey`) pays only endpoints that advertise a `nano:mainnet` accept; to also pay endpoints that advertise only `eip155:8453`, pass `evmPrivateKey` so the USDC-on-Base rail is available from the same client.
 

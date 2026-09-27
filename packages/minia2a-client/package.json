@@ -57,7 +57,8 @@
       "import": "./src/nano.js",
       "types": "./src/nano.d.ts"
     },
-    "./package.json": "./package.json"
+    "./package.json": "./package.json",
+    "./*": "./*"
   },
   "license": "MIT",
   "repository": {

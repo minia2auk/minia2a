@@ -143,8 +143,10 @@ function makeCall(fetchWithPayment) {
       // direction to degrade in.
       throw new Error(
         "trial is not supported on the nano rail — the trial identifier is " +
-          "EVM-signed (minia2a trial:{wallet}:...); use createClient(privateKey) " +
-          "or pass evmPrivateKey to carry the USDC rail"
+          "EVM-signed (minia2a trial:{wallet}:...), which a Nano-only key cannot " +
+          "sign. Use the USDC client for trial calls: createClient() from " +
+          "'minia2a-client'. Passing evmPrivateKey to createNanoClient() does " +
+          "not enable trials here — this check is unconditional."
       );
     }
 
@@ -189,8 +191,11 @@ function makeCall(fetchWithPayment) {
  * @param {string} opts.privateKey - Nano account private key (64 hex chars).
  *   This wallet pays per-call fees in Nano; the key is only used to sign
  *   locally and is never sent to minia2a.
- * @param {string} [opts.rpcUrl] - Nano RPC URL used to build (and where the
- *   sender requires it) announce the send block. Defaults to a public Nano RPC.
+ * @param {string} opts.rpcUrl - Nano RPC URL used to build (and, where the
+ *   sender requires it, announce) the send block. **Required** unless
+ *   `MINIA2A_NANO_RPC_URL` is set: `@x402nano/helper` has no built-in default
+ *   and only rejects an unset URL later, inside `generateSendBlock` — so this
+ *   client checks it up front instead of failing after the 402.
  * @param {string} [opts.workGenerationUrl] - Nano work generation URL.
  * @param {string} [opts.evmPrivateKey] - Optional EVM private key if you also
  *   want the USDC-on-Base rail available from the same client.
@@ -211,10 +216,24 @@ export async function createNanoClient({
     );
   }
 
+  // No literal default on purpose. @x402nano/helper validates NANO_RPC_URL only
+  // at send-block time (`validateNanoRpcUrl`), which is *after* the 402 and
+  // inside createPaymentPayload — so a missing URL would surface as
+  // "Failed to generate Nano send block", wrapped, at the worst point. Fail
+  // here instead, naming the option, before any request is made.
+  const resolvedRpcUrl = rpcUrl || process.env.MINIA2A_NANO_RPC_URL;
+  if (!resolvedRpcUrl) {
+    throw new Error(
+      "Nano RPC URL required — pass `rpcUrl` or set MINIA2A_NANO_RPC_URL. " +
+        "The rail has no built-in RPC default: your node choice is not ours to make, " +
+        "and @x402nano/helper rejects an unset NANO_RPC_URL only when it builds the send block."
+    );
+  }
+
   const Helper = await nanoHelperCtor();
   const helper = new Helper({
     NANO_ACCOUNT_PRIVATE_KEY: privateKey,
-    NANO_RPC_URL: rpcUrl || process.env.MINIA2A_NANO_RPC_URL,
+    NANO_RPC_URL: resolvedRpcUrl,
     NANO_WORK_GENERATION_URL: workGenerationUrl,
   });
 
