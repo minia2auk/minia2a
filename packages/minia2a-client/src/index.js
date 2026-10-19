@@ -187,8 +187,8 @@ export function createClient(privateKey) {
    * Optional registration — publishes your wallet's identity, not a trial key.
    * Trials are per-wallet and need no registration (see call(..., {trial:true})).
    * Not required to use the client: every call settles via x402 whether or not
-   * you register. Most services have no trial allowance, so don't treat this as
-   * the normal path.
+   * you register. Trials work on almost every service (a few premium ones are
+   * pay-only), so registration is never needed to sample the API.
    *
    * Signs "minia2a register: <wallet>" (EIP-191) and POSTs it with your name.
    *
