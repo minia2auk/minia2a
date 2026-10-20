@@ -41,7 +41,7 @@ const stats = await client.status();
 
 ### Free trials (no registration needed)
 
-Every wallet gets **5 free trial calls**, signed locally — registration is not involved. Trials work on almost every service; a few premium ones are pay-only and answer with the payment challenge instead of drawing a trial. The 5 calls are shared across services, not per service:
+Every wallet gets **5 free trial calls**, signed locally — registration is not involved. Trials work on almost every service. The pay-only tier — premium, audit, AI-model, and any service priced at $2 or more — answers with the payment challenge instead of drawing a trial. The 5 calls are shared across services, not per service:
 
 ```js
 // Spends one of this wallet's 5 trials:
