@@ -188,8 +188,9 @@ export function createClient(privateKey) {
    * Trials are per-wallet and need no registration (see call(..., {trial:true})).
    * Not required to use the client: every call settles via x402 whether or not
    * you register. Trials work on almost every service; the pay-only tier
-   * (premium, audit, AI-model, and $2+ services) answers with the payment
-   * challenge instead, so registration is never needed to sample the API.
+   * (categories premium/contract-audit/ai/deepseek, x402-captcha-solve, and
+   * $2+ services) answers with the payment challenge instead, so registration
+   * is never needed to sample the API.
    *
    * Signs "minia2a register: <wallet>" (EIP-191) and POSTs it with your name.
    *
