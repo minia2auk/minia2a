@@ -47,8 +47,10 @@ Every wallet gets **5 free trial calls**, signed locally — registration is not
 // Spends one of this wallet's 5 trials:
 const r = await client.call("time", {}, { trial: true });
 
-// Once the 5 are spent you get a 402 with trialExhausted:true — pay per call, or
-// sign a fresh wallet for 5 more.
+// Once the 5 are spent the endpoint answers 402 with trialExhausted:true and a
+// per-wallet `trial` object (remaining: 0). Pay per call from here: the allowance
+// is one bucket per wallet across the whole catalog, so switching services does
+// not add calls.
 ```
 
 Trial calls send `?wallet=<address>` plus `X-Wallet-Signature` (EIP-191 over
