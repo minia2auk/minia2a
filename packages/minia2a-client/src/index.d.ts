@@ -14,10 +14,21 @@ export interface CallOptions {
   trial?: boolean;
 }
 
+export interface TrialInfo {
+  /** "wallet" when the call drew on the wallet bucket; null if the gateway sent no trial headers */
+  mode: string | null;
+  /** Free trial calls left for this wallet after the call (null when not reported) */
+  remaining: number | null;
+  /** Total allowance per wallet (5 on the wallet bucket) */
+  max: number | null;
+}
+
 export interface CallResult {
   ok: boolean;
   status?: number;
   error?: string;
+  /** Present on opts.trial calls that the gateway answered with x-trial-* headers */
+  trial?: TrialInfo;
   paymentRequired?: boolean;
   helpUrl?: string;
   [key: string]: any;

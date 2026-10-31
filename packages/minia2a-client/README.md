@@ -46,6 +46,8 @@ Every wallet gets **5 free trial calls**, signed locally — registration is not
 ```js
 // Spends one of this wallet's 5 trials:
 const r = await client.call("time", {}, { trial: true });
+// r.trial reports the wallet's allowance after the call, read from the
+// gateway's x-trial-* headers: { mode: "wallet", remaining: 4, max: 5 }
 
 // Once the 5 are spent the endpoint answers 402 with trialExhausted:true and a
 // per-wallet `trial` object (remaining: 0). Pay per call from here: the allowance

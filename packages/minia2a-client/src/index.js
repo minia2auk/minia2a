@@ -24,6 +24,20 @@ function normalizeKey(key) {
   return key.startsWith("0x") ? key : "0x" + key;
 }
 
+// A trial call's remaining allowance is only in response headers --
+// x-trial-mode / x-trial-max / x-trial-remaining. minia2a-mcp already reports
+// them; this client dropped them, so a caller could not tell "1 free call left"
+// from "4" without exhausting the bucket first. Absent on pay-only endpoints,
+// where the gateway answers 402 and never draws a trial.
+function describeTrial(res) {
+  const mode = res.headers.get("x-trial-mode");
+  const remaining = res.headers.get("x-trial-remaining");
+  const max = res.headers.get("x-trial-max");
+  if (mode === null && remaining === null && max === null) return null;
+  const n = (v) => (v === null || v === "" || Number.isNaN(Number(v)) ? null : Number(v));
+  return { mode: mode || null, remaining: n(remaining), max: n(max) };
+}
+
 // Stable agent identity. Generated once and persisted, then sent as
 // X-Agent-ID on every call. The gateway stores only HMAC-SHA256(secret, id),
 // never the id itself, so this is a privacy-safe "distinct agents" signal
@@ -169,6 +183,7 @@ export function createClient(privateKey) {
 
     const text = await res.text();
     const data = await parseJson(res, text);
+    const trialInfo = opts.trial ? describeTrial(res) : null;
 
     if (!res.ok) {
       return {
@@ -180,7 +195,9 @@ export function createClient(privateKey) {
           : {}),
       };
     }
-    return { ok: true, status: res.status, ...data };
+    // `...data` last: if a future response body carries its own `trial` object,
+    // the body wins over the header-derived copy.
+    return { ok: true, status: res.status, ...(trialInfo ? { trial: trialInfo } : {}), ...data };
   }
 
   /**
