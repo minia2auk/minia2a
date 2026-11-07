@@ -21,15 +21,49 @@ export interface TrialInfo {
   remaining: number | null;
   /** Total allowance per wallet (5 on the wallet bucket) */
   max: number | null;
+  /** Wallet the bucket belongs to (present on the 402 body, not on the x-trial-* headers) */
+  wallet?: string;
+}
+
+export interface PaymentAccept {
+  scheme?: string;
+  network?: string;
+  amount?: string;
+  asset?: string;
+  payTo?: string;
+  maxTimeoutSeconds?: number;
+  extra?: Record<string, any>;
+  [key: string]: any;
+}
+
+/** The 402 document the gateway serves, verbatim (body, base64-decoded PAYMENT-REQUIRED). */
+export interface PaymentRequiredDocument {
+  x402Version?: number;
+  error?: string;
+  /** Actionable sentence, e.g. "Free trial calls exhausted for wallet 0x… (0/5 total)." */
+  message?: string;
+  nextSteps?: string[];
+  accepts?: PaymentAccept[];
+  trial?: TrialInfo;
+  trialExhausted?: boolean;
+  resource?: { url?: string; description?: string; mimeType?: string; [key: string]: any };
+  extensions?: Record<string, any>;
+  [key: string]: any;
 }
 
 export interface CallResult {
   ok: boolean;
   status?: number;
+  /** On a refusal this is the actionable `message` when the body has one, else the protocol `error`. */
   error?: string;
-  /** Present on opts.trial calls that the gateway answered with x-trial-* headers */
+  /** Actionable sentence from the refusal body (same string `error` prefers when present). */
+  message?: string;
+  /** Present on opts.trial calls that the gateway answered with x-trial-* headers, or on a 402 body carrying `trial`. */
   trial?: TrialInfo;
-  paymentRequired?: boolean;
+  /** True when the 402 says this wallet's 5 free trials are spent — pay per call from here. */
+  trialExhausted?: boolean;
+  /** The whole 402 challenge document (not a boolean — read `.accepts` for price/network/asset). */
+  paymentRequired?: PaymentRequiredDocument;
   helpUrl?: string;
   [key: string]: any;
 }

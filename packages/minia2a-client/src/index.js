@@ -186,10 +186,21 @@ export function createClient(privateKey) {
     const trialInfo = opts.trial ? describeTrial(res) : null;
 
     if (!res.ok) {
+      // A 402 carries two different strings: `error` is the protocol word ("Payment
+      // required") and `message` is the one a human can act on — for an exhausted
+      // wallet it names the wallet, the 0/5 bucket and the way forward. Prefer the
+      // actionable one, and hoist `trial`/`trialExhausted` out of the challenge
+      // document: a caller that prints res.error (the usual shape) should learn why
+      // the call was refused without having to read res.paymentRequired.
+      const bodyTrial = data.trial && typeof data.trial === "object" ? { trial: data.trial } : {};
+      const exhausted = data.trialExhausted === true ? { trialExhausted: true } : {};
       return {
         ok: false,
         status: res.status,
-        error: data.error || data.message || "call failed",
+        error: data.message || data.error || "call failed",
+        ...(data.message ? { message: data.message } : {}),
+        ...exhausted,
+        ...bodyTrial,
         ...(data.accepts || res.status === 402
           ? { paymentRequired: data, helpUrl: `${BASE}/x402-help.html` }
           : {}),

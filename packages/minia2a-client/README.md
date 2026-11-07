@@ -59,6 +59,29 @@ Trial calls send `?wallet=<address>` plus `X-Wallet-Signature` (EIP-191 over
 `minia2a trial:<wallet>:<service-id>:<unix-seconds>`) and `X-Trial-Timestamp`. Both halves are
 required: the signature proves ownership, the query param selects the wallet's trial bucket.
 
+### When a call is refused
+
+`call()` never throws on an HTTP refusal — it resolves to `ok:false`, so a script that only
+prints `res.error` still learns what happened:
+
+```js
+const r = await client.call("time", {}, { trial: true });
+if (!r.ok) {
+  console.log(r.status);          // 402
+  console.log(r.error);           // the actionable sentence from the body, e.g.
+                                  // "Free trial calls exhausted for wallet 0x… (0/5 total). Pay per call via x402."
+  console.log(r.trialExhausted);  // true when the 5-call bucket is spent
+  console.log(r.trial);           // { mode: "wallet", remaining: 0, max: 5, wallet: "0x…" }
+  console.log(r.paymentRequired.accepts[0]);
+  // { scheme: "exact", network: "eip155:8453", amount: "100000",
+  //   asset: "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913", payTo: "0x…" }
+}
+```
+
+`paymentRequired` is the whole 402 document (not a boolean): `accepts[]` carries price, network,
+asset and payee for the paid path. `message` holds the same actionable sentence when the body
+has one, so `res.message ?? res.error` is safe for both older and newer gateways.
+
 ### Optional registration (publishing / identity)
 
 ```js
