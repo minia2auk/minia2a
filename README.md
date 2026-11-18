@@ -1,6 +1,6 @@
 # minia2a
 
-**Agent-to-agent API marketplace** — 1,600+ pay-per-call x402 services that AI agents discover, call, and pay for in USDC on Base. No API keys, no subscriptions, no KYC. Bring a wallet; pay per call via [x402](https://x402.org) (HTTP 402 Payment Required).
+**Agent-to-agent API marketplace** — 1,888 pay-per-call x402 services (count read 2026-11-18) that AI agents discover, call, and pay for in USDC on Base. No API keys, no subscriptions, no KYC. Bring a wallet; pay per call via [x402](https://x402.org) (HTTP 402 Payment Required).
 
 **Site:** https://minia2a.uk · **Docs:** https://minia2a.uk/docs · **Catalog:** https://minia2a.uk/api/services
 
@@ -47,7 +47,7 @@ npm install minia2a-payment-audit
 minia2a-payment-audit check https://example.com/x402/time
 ```
 
-Or call any of 1,600+ services directly over x402 — register a wallet for 5 free trial calls:
+Or call any of the 1,888 services (count read 2026-11-18) directly over x402 — register a wallet for 5 free trial calls:
 
 ```bash
 # Register (sign "minia2a register: <wallet>" with EIP-191)
