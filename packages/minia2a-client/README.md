@@ -1,6 +1,6 @@
 # minia2a-client
 
-Call **1,680+ AI agent tools** via [x402](https://x402.org) — pay per call in USDC on Base. No API keys, no KYC, no subscription. **Bring your own wallet**; your private key signs the payment locally and is never sent to minia2a.
+Call **AI agent tools** via [x402](https://x402.org) — pay per call in USDC on Base. No API keys, no KYC, no subscription. **Bring your own wallet**; your private key signs the payment locally and is never sent to minia2a.
 
 ```js
 import { createClient } from "minia2a-client";

@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// minia2a CLI — call 1,680+ AI agent tools via x402 micropayments on Base.
+// minia2a CLI — call AI agent tools via x402 micropayments on Base.
 // Pay per call in USDC. Requires a wallet private key for paid calls.
 
 import { createClient } from "./index.js";
@@ -7,7 +7,7 @@ import { createClient } from "./index.js";
 const BASE = process.env.MINIA2A_BASE || "https://minia2a.uk";
 
 function help() {
-  console.log(`minia2a — 1,680+ AI agent tools via x402 USDC on Base
+  console.log(`minia2a — AI agent tools via x402 USDC on Base
 
 This package installs two bin names for the same CLI: \`minia2a-client\` and
 \`minia2a\`. Use \`minia2a-client\` if you also have the minia2a-cli package —

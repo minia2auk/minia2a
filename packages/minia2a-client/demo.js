@@ -8,7 +8,7 @@ const BASE = process.env.MINIA2A_BASE || "https://minia2a.uk";
 
 async function main() {
   console.log("╔════════════════════════════════════════════╗");
-  console.log("║   minia2a-client — 1,680+ x402 tools       ║");
+  console.log("║   minia2a-client — x402 agent tools        ║");
   console.log("║   pay per call in USDC on Base             ║");
   console.log("╚════════════════════════════════════════════╝\n");
 

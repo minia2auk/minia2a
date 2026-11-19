@@ -1,4 +1,4 @@
-// minia2a-client — call 1,680+ AI agent tools via x402 micropayments on Base.
+// minia2a-client — call AI agent tools via x402 micropayments on Base.
 // Pay per call in USDC. No API keys, no subscription. Bring your own wallet.
 //
 //   import { createClient } from "minia2a-client";

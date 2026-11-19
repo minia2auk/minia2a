@@ -1,6 +1,6 @@
 # minia2a
 
-Client SDK for [minia2a.uk](https://minia2a.uk) — **1,600+ x402 agent microservices**. Crypto data, web scraping, blockchain tooling, utilities.
+Client SDK for [minia2a.uk](https://minia2a.uk) — **the x402 agent microservices catalog** (live size: [https://minia2a.uk/api/services](https://minia2a.uk/api/services)). Crypto data, web scraping, blockchain tooling, utilities.
 
 Pay-per-call in **USDC on Base** via the [x402](https://minia2a.uk/x402-help.html) protocol, or get **5 free trial calls per signed wallet**. No registration, no API key, no prepaid balance.
 

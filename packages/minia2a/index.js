@@ -1,5 +1,5 @@
 // minia2a SDK — client for minia2a.uk x402 agent microservices
-// 1,600+ endpoints. Pay-per-call in USDC on Base via the x402 protocol, or 5 free
+// the whole catalog Pay-per-call in USDC on Base via the x402 protocol, or 5 free
 // trial calls per signed wallet. No registration, no API key, no credits.
 //
 // Usage:
