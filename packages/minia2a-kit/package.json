@@ -1,7 +1,7 @@
 {
   "name": "minia2a-kit",
-  "version": "0.1.0",
-  "description": "Memory, discovery and knowledge for AI agents \u2014 x402 pay-per-call on minia2a. Find the right service for a task (semantic search over 1,600+ x402 APIs), recall agent-economy knowledge, persist state across calls, search the web. No API keys, no subscription \u2014 pay per call in USDC on Base.",
+  "version": "0.1.2",
+  "description": "Memory, discovery and knowledge for AI agents — pay-per-call x402 APIs on minia2a.uk: semantic search over the live catalog, agent-economy knowledge, persistent state across calls, web search. USDC on Base, no API keys.",
   "type": "module",
   "main": "src/index.js",
   "bin": {
@@ -34,5 +34,10 @@
     "@x402/evm": "^2.24.0",
     "viem": "^2.0.0"
   },
-  "license": "MIT"
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/minia2auk/minia2a.git",
+    "directory": "packages/minia2a-kit"
+  }
 }

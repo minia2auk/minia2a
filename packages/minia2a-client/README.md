@@ -41,7 +41,7 @@ const stats = await client.status();
 
 ### Free trials (no registration needed)
 
-Every wallet gets **5 free trial calls**, signed locally — registration is not involved. Trials work on almost every service. The pay-only tier — the `premium`, `contract-audit`, `ai` and `deepseek` categories, `x402-captcha-solve`, and any service priced at $2 or more — answers with the payment challenge instead of drawing a trial. The 5 calls are shared across services, not per service:
+Every wallet gets **5 free trial calls**, signed locally — registration is not involved. Trials work on almost every service. The pay-only tier — the `premium`, `contract-audit`, `ai` and `deepseek` categories, and any service priced at $2 or more — answers with the payment challenge instead of drawing a trial. The 5 calls are shared across services, not per service:
 
 ```js
 // Spends one of this wallet's 5 trials:
@@ -106,7 +106,7 @@ minia2a dns '{"domain":"minia2a.uk"}'
 minia2a call web-scrape '{"url":"https://example.com"}'
 minia2a register my-agent          # optional — identify/publish; grants no trials
 minia2a list                       # service catalog (free)
-minia2a search captcha             # search the catalog (free)
+minia2a search gas                 # search the catalog (free)
 minia2a stats                      # marketplace stats (free)
 ```
 
@@ -115,9 +115,9 @@ minia2a stats                      # marketplace stats (free)
 | Category | Services |
 |----------|----------|
 | Crypto | gas, dex-price, token-security, wallet-intel, funding-rate, polymarket |
-| Web | web-scrape, screenshot, fetch, pdf-text, dns, ip-lookup |
+| Web | web-scrape, web2md, fetch, pdf-text, dns, ip-lookup |
 | Data | summarize, sentiment, markdown, jwt-decode, base64, csv-json |
-| Security | captcha-solve, api-review, email-verify, url-safety |
+| Security | token-security, api-review, email-verify, ssl-check, guardian |
 
 The full catalog — with per-service price and trial availability — is at [minia2a.uk/services.html](https://minia2a.uk/services.html).
 

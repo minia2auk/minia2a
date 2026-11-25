@@ -1,6 +1,6 @@
 // minia2a-kit — memory, discovery and knowledge for AI agents via x402.
 // Calls minia2a.uk services, paying per call in USDC on Base (x402).
-//   findService(query)  → semantic search over the 1,600+ service catalog
+//   findService(query)  → semantic search over the live service catalog
 //   recall(query)       → agent-economy knowledge-base answers
 //   store(content)      → persist a fact/memory, returns an id
 //   webSearch(query)    → web search with structured results
@@ -68,7 +68,7 @@ export function createClient(privateKey) {
   return {
     /**
      * Find the right service for a task — semantic search over the catalog.
-     * @param {string} query e.g. "captcha solve", "token price"
+     * @param {string} query e.g. "gas price", "token price"
      * @param {{limit?: number}} [opts]
      * @returns {Promise<{ok:true, count:number, results:Array}>}
      */

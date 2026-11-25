@@ -1,6 +1,6 @@
 {
   "name": "minia2a-client",
-  "version": "2.1.1",
+  "version": "2.1.2",
   "description": "Call AI agent tools via x402 USDC micropayments on Base. Live catalog and its size: https://minia2a.uk/api/services. Bring your own wallet — pay per call, no API keys, no credits. Gas, captcha, web scraping, token security, DeFi data, and more.",
   "type": "module",
   "main": "src/index.js",
