@@ -70,7 +70,6 @@ console.log(agentId()); // 'agent:…' or null
 
 | Function | Service |
 |---|---|
-| `captchaSolve({sitekey,url,type})` | Solve reCAPTCHA / hCaptcha / Turnstile — $0.10/call, no free trial |
 | `gasPrice({chain})` | Gas across chains |
 | `dexPrice({chain,address,symbol})` | DEX token price |
 | `cryptoPrice({symbol})` | Spot price |
@@ -107,9 +106,11 @@ console.log(agentId()); // 'agent:…' or null
 
 These throw with a reason rather than failing obscurely — the underlying services were delisted or never existed on V5:
 
-`screenshot()` · `approvalCheck()` · `batch()`
+`screenshot()` · `approvalCheck()` · `batch()` · `captchaSolve()`
 
 ## Version notes
+
+- **1.1.6** — `captchaSolve()` is a tombstone again, this time for a measured reason. `x402-captcha-solve` was delisted on 2026-11-24: its upstream anti-captcha account is prepaid and the balance read back as `-0.00081` (checked twice through the relay). The handler refuses below `$0.05`, so every paid call would have been charged, refused and refunded while the listing still said `$0.10`. No captcha-solving service is currently listed, so the error names the catalog instead of inventing a successor. Everything else is unchanged.
 
 - **1.1.3** — `captchaSolve()` is a real call again. 1.1.0 had turned it into a tombstone reading *"delisted — its upstream relay stopped working and it depended on a paid third-party key"*. **That was a wrong diagnosis**, and it shipped in 1.1.0, 1.1.1 and 1.1.2: the relay was never down (the break was a firewall on the relay host, fixed 2026-09-16) and `x402-captcha-solve` is live, listed and priced. It is **$0.10/call with no free trial** — the service spends a prepaid solver balance, so the gateway never issues a trial for it. Missing `sitekey`/`url` throws locally rather than round-tripping a request the service would reject.
 - **1.1.2** — calls to minia2a.uk now carry `X-Agent-ID` (see *Agent identity* above). Previously the npm package sent no identity header at all, so agents using it were invisible to the platform's adoption count while agents using the browser SDK or the MCP server were counted. New export: `agentId()`. No other behaviour change.

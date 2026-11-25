@@ -1,6 +1,6 @@
 {
   "name": "minia2a",
-  "version": "1.1.5",
+  "version": "1.1.6",
   "description": "Client SDK for minia2a.uk — x402 agent microservices (live catalog at minia2a.uk/api/services). Crypto data, web scraping, blockchain tooling. Pay-per-call in USDC on Base, or 5 free trial calls per signed wallet. No registration, no API key.",
   "main": "index.js",
   "types": "index.d.ts",

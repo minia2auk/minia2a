@@ -21,6 +21,10 @@
 // third-party key". That was a wrong diagnosis: the relay was never down (the break was a
 // firewall on the relay host, fixed 2026-09-16), and `x402-captcha-solve` is live and listed
 // at $0.10/call. The false sentence shipped in 1.1.0, 1.1.1 and 1.1.2.
+//
+// 2026-11-25 (v1.1.6): captchaSolve() is a tombstone for a measured reason — the service was
+// delisted on 2026-11-24 after its prepaid anti-captcha balance read back negative twice. See
+// the CAPTCHA section below. No other export changed.
 
 const os = require('os');
 const path = require('path');
@@ -144,15 +148,14 @@ function _gone(name, reason) {
 
 // ── CAPTCHA ──
 
-// Live, priced, and NOT trialable: it spends a prepaid anti-captcha balance, so the gateway
-// never issues a free trial for it — expect a 402 with the x402 challenge, and a trial call
-// will not be accepted. Inputs are validated here before the request because the service
-// answers `{ok:false}` to a missing sitekey, and repeated `ok:false` deliveries are what gets
-// a service delisted.
-async function captchaSolve({ sitekey, url, type = 'v2' } = {}) {
-  if (!sitekey || !url) throw new Error('sitekey and url required');
-  return _call('x402-captcha-solve', { sitekey, url, type });
-}
+// 2026-11-25 (v1.1.6): delisted again, this time for a measured reason, not a guess. The
+// upstream anti-captcha account is prepaid and its balance read back as -$0.00081 (checked
+// twice through the relay at 21:53Z on 2026-11-24). The handler refuses below $0.05, so
+// every paid call would be charged, refused and refunded while the listing still said
+// $0.10. `services.active` was set to 0 the same day. It comes back when the upstream
+// balance is topped up — a human payment step, so from this repo's point of view it is gone.
+// No replacement exists in the catalog: this throws rather than pointing at a fake successor.
+const captchaSolve = _gone('captchaSolve', 'the x402-captcha-solve service was delisted on 2026-11-24 — its prepaid upstream solver balance is empty, so every paid call would be refused and refunded. No captcha-solving service is currently listed; see https://minia2a.uk/api/services for what is.');
 
 // ── CRYPTO DATA ──
 

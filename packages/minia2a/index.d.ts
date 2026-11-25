@@ -26,11 +26,11 @@ export function agentId(): string | null;
 
 // ── Captcha ──
 /**
- * Solve reCAPTCHA v2/v3, hCaptcha or Cloudflare Turnstile. $0.10/call, USDC on Base.
- * No free trial — this one spends a prepaid solver balance, so every call is a paid call.
- * Throws if `sitekey` or `url` is missing; throws with `.x402` set on HTTP 402.
+ * Always rejects — `x402-captcha-solve` was delisted on 2026-11-24 (its prepaid upstream
+ * solver balance is empty, so every paid call would be refused and refunded). Kept as a
+ * named export so existing code fails with a reason instead of a bare 404.
  */
-export function captchaSolve(opts: { sitekey: string; url: string; type?: string }): Promise<any>;
+export function captchaSolve(opts?: { sitekey?: string; url?: string; type?: string }): Promise<any>;
 
 // ── Crypto data ──
 export function gasPrice(opts?: { chain?: string }): Promise<any>;
